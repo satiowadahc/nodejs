@@ -1,0 +1,44 @@
+<% include partials/header %>
+<h1> Add Point </h1>
+<form method="Post" action="/points/add">
+	<label>name</label>
+	<input type="text" name="name">
+	<br>
+	<label>location</label>
+	<input type="text" name="location">
+	<br>
+	<label>Status</label>
+	<input type="text" name="status">
+	<input type="submit" name="Submit">
+</form>
+
+
+
+<h1><%= title %></h1>
+
+<% if(errors){%>
+ <ul>
+ 	<% errors.forEach((err)=>{ %>
+ 	 <li> <%= err.msg %></li>
+ 	<% }) %>
+ </ul>
+<% } %> 
+<table>
+<tr>
+	<th>Condition</th>
+	<th>Location</th>
+	<th>Status</th>
+</tr>
+
+<% places.forEach((place)=>{ %>
+	<tr>
+	<td><%= place.properties.name %> </td>
+	<td><%= place.properties.status %></td>
+	<td><%= place.properties.location %></td>
+	<td><a href="#" class="deletePoint" data-id="<%= place.properties.id %>" > Delete </a></td>
+	</tr>
+<% }) %>		
+</ul>
+</table>
+
+<% include partials/footer.ejs %>

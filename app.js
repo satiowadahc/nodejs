@@ -1,25 +1,112 @@
-const http = require('http');
-const fs = require('fs');
+const express = require('express');
+const bodyParder = require('body-parser');
+const path = require('path');
+const expressValidator = require('express-validator');
+const mongo = require('mongoJS');
+const db = mongo('mongodb://pizzahut:d0m1n03s@ds237669.mlab.com:37669/moosejaw', ['roads']);
+
+const app = express();
 
 
-fs.readFile('index.html',(err,html) => {
-	if(err){
-		throw err;
+app.set('view engine','ejs');
+app.set('views', path.join(__dirname,'views'));
+
+app.use(bodyParder.json());
+app.use(bodyParder.urlencoded({extended: false}));
+
+app.use(express.static(path.join(__dirname,'public')));
+
+app.use((req,res,next)=>{
+	res.locals.errors = null;
+	next();
+});
+
+app.use(expressValidator({
+ errorFormatter: (param, msg, value) =>{
+	var namespace = param.split('.'),
+	root = namespace.shift(),
+	formParam = root;
+
+	while(namespace.length){
+		formParam += '[' + namespace.shift() + ']';
 	}
+	return{
+		param: formParam,
+		msg  : msg,
+		value: value
+	};
+  }
+}));
 
+app.get('/', (req,res)=>{
 
-const hostname = '127.0.0.1';
-const port = 3000;
-
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/html');
-  res.write(html);
-  res.end('Hello World\n');
+	db.roads.find((err,docs)=>{
+		if(err){
+			console.log(err);
+		}
+		res.render('index',{
+		 "title":"Moose Jaw Roads",
+		 "places": docs
+	    });
+	})	
 });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+
+app.post('/points/add', (req, res)=>{
+	req.checkBody('name', 'Name is Required]').notEmpty();
+	req.checkBody('location', 'location is Required').notEmpty();
+	req.checkBody('status', 'Status is Required').notEmpty();
+
+	const errors = req.validationErrors();
+	
+	if (errors){
+		console.log('Error Inserting')
+		db.roads.find((err ,docs)=>{
+			if(err){
+			console.log(err);
+		    }
+		  res.render('index',{
+		   "title":"Moose Jaw Roads",
+		   "places": docs,
+		   "errors": errors
+	    });
+	})	
+		
+	} else {
+		const newPoint = {
+			"type": "Feature",
+			"properties": {
+				name: req.body.name,
+				location: req.body.location,
+				status: req.body.status
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					50.4,-105.6
+				]
+			}
+		}
+
+	    db.roads.insert(newPoint, (err,res)=>{
+	    	if(err){
+	    		console.log(err);
+	    	}
+	    });
+	    
+	}
+	res.redirect('/');
 });
 
+
+app.delete('/points/delete/:id', (req,res)=>{
+	//TODO Distinguish ID's
+	console.log(req.params.id);
+	res.redirect('/');
+
+	//db.roads.remove({})
+});
+
+app.listen(3000, ()=>{
+	console.log('Server Started on 3000')
 });
