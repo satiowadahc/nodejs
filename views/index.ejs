@@ -1,18 +1,28 @@
 <% include partials/header %>
 <h1> Add Point </h1>
 <form method="Post" action="/points/add">
-	<label>name</label>
-	<input type="text" name="name">
+	<label>Issue:</label>
+	<input type="radio" name="name" value="Water Main Break"> Water Main Break
+	<input type="radio" name="name" value="Water Service"> Water Service
+	<input type="radio" name="name" value="Roadwork"> Road Work
+	<input type="radio" name="name" value="Residential Lining"> Residential Lining
 	<br>
-	<label>location</label>
+	
+	<label>Status:</label>
+	<input type="radio" name="status" value="Ongoing"> Ongoing 
+	<input type="radio" name="status" value="Temporary"> Temporary
+	<input type="radio" name="status" value="Completed"> Completed
+	<br>
+	<label>Location: </label>
 	<input type="text" name="location">
 	<br>
-	<label>Status</label>
-	<input type="text" name="status">
+	<label>Coordinates:</label>
+	<input type="text" name="coordinates" id="locat">
+	<br>
 	<input type="submit" name="Submit">
 </form>
 
-
+<button onclick="getLocation()">Update Location</button>
 
 <h1><%= title %></h1>
 
@@ -35,7 +45,7 @@
 	<td><%= place.properties.name %> </td>
 	<td><%= place.properties.status %></td>
 	<td><%= place.properties.location %></td>
-	<td><a href="#" class="deletePoint" data-id="<%= place.properties.id %>" > Delete </a></td>
+	<td><a href="#" class="deletePoint" data-id="<%= place._id %>" > Delete </a></td>
 	</tr>
 <% }) %>		
 </ul>

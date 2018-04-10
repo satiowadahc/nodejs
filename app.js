@@ -3,8 +3,8 @@ const bodyParder = require('body-parser');
 const path = require('path');
 const expressValidator = require('express-validator');
 const mongo = require('mongoJS');
+const ObjectID = mongo.ObjectID;
 const db = mongo('mongodb://pizzahut:d0m1n03s@ds237669.mlab.com:37669/moosejaw', ['roads']);
-
 const app = express();
 
 
@@ -82,9 +82,7 @@ app.post('/points/add', (req, res)=>{
 			},
 			"geometry": {
 				"type": "Point",
-				"coordinates": [
-					50.4,-105.6
-				]
+				"coordinates": req.body.coordinates
 			}
 		}
 
@@ -100,11 +98,14 @@ app.post('/points/add', (req, res)=>{
 
 
 app.delete('/points/delete/:id', (req,res)=>{
-	//TODO Distinguish ID's
+	//TODO test ids
 	console.log(req.params.id);
+	db.roads.remove({_id:ObjectID(req.params.id)},(err)=>{
+		if(err){
+			console.log(err);
+		}
+	});
 	res.redirect('/');
-
-	//db.roads.remove({})
 });
 
 app.listen(3000, ()=>{
