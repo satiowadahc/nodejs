@@ -1,0 +1,26 @@
+{
+  "name": "moosejawmaps",
+  "version": "1.0.0",
+  "description": "Current Road Conditions",
+  "main": "app.js",
+  "dependencies": {
+    "@google/maps": "^0.4.6",
+    "express": "^4.16.3",
+    "mongo": "^0.1.0",
+    "mongoose": "^5.0.14"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/satiowadahc/nodejs.git"
+  },
+  "author": "satiowadahc",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/satiowadahc/nodejs/issues"
+  },
+  "homepage": "https://github.com/satiowadahc/nodejs#readme"
+}
