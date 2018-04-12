@@ -19,6 +19,11 @@ function deleteUser(){
 }
 
 
+function test(){
+
+	$.ajax({}).done((res)=>{})
+}
+
 function getLocation() {
     if (navigator.geolocation) {
         return navigator.geolocation.getCurrentPosition(showPosition);
@@ -28,4 +33,11 @@ function getLocation() {
 }
 function showPosition(position) {
     document.getElementById("locat").value = "[" + position.coords.latitude + "," + position.coords.longitude + "]";
+    $.ajax({
+		type:'POST',
+		url: '/points/'+ $(this).data('id')
+	}).done(function(response){
+		window.location.replace('/');
+	});
+    
 }
