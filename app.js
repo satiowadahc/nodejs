@@ -6,12 +6,17 @@ const mongo = require('mongoJS');
 const ObjectID = mongo.ObjectID;
 const db = mongo('mongodb://pizzahut:d0m1n03s@ds237669.mlab.com:37669/moosejaw', ['roads']);
 const app = express();
-
+const google = require('@google/maps');
 
 
 //Initialize Middle Ware
 app.set('view engine','ejs');
 app.set('views', path.join(__dirname,'views'));
+
+//Google maps
+const gMapsClient = google.createClient({
+	key: 'AIzaSyDOojys9XUzySpVHVrkrTqttPw9o9Dthcw'
+});
 
 
 //Is this nessecary
@@ -60,6 +65,23 @@ app.get('/', (req,res)=>{
 	})
 
 });
+
+//load map page
+app.get('/maps', (req,res)=>{
+
+	db.roads.find((err,docs)=>{
+		if(err){
+			console.log(err);
+		}
+		res.render('index',{
+		 "title":"Moose Jaw Roads",
+		 "places": docs
+	    });
+	})
+
+});
+
+
 
 
 app.post('/test', (req,res)=>{
