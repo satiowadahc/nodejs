@@ -1,47 +1,3 @@
-$(document).ready(function(){
-	$('.deletePoint').on('click',deleteUser);
-
-});
-
-function deleteUser(){
-	var confirmation = confirm('Are you Sure?');
-	if(confirmation){
-	$.ajax({
-		type:'DELETE',
-		url: '/points/delete/'+ $(this).data('id')
-	}).done(function(response){
-		window.location.replace('/');
-	});
-   }
-   else{
-   	 return false;
-   }
-}
-
-
-function test(){
-
-	$.ajax({}).done((res)=>{})
-}
-
-function getLocation() {
-    if (navigator.geolocation) {
-        return navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-        document.getElementById("locat").value = "Geolocation is not supported by this browser.";
-    }
-}
-function showPosition(position) {
-    document.getElementById("locat").value = "[" + position.coords.latitude + "," + position.coords.longitude + "]";
-    $.ajax({
-		type:'POST',
-		url: '/points/'+ $(this).data('id')
-	}).done(function(response){
-		window.location.replace('/');
-	});
-    
-}
-
 // Loading the map into the div id=map     
 
 var map;
@@ -83,4 +39,5 @@ window.eqfeed_callback = function(results) {
            "<table><tr><th>Issue</th><th>Location</th><th>Status</th></tr>" +
            holder +"</table>";
  };//endCallback
+
 

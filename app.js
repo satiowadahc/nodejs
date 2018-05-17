@@ -14,7 +14,7 @@ app.set('view engine','ejs');
 app.set('views', path.join(__dirname,'views'));
 
 //Google maps
-const gMapsClient = google.createClient({
+const googleMapsClient = google.createClient({
 	key: 'AIzaSyDOojys9XUzySpVHVrkrTqttPw9o9Dthcw'
 });
 
@@ -68,17 +68,15 @@ app.get('/', (req,res)=>{
 
 //load map page
 app.get('/maps', (req,res)=>{
-
 	db.roads.find((err,docs)=>{
 		if(err){
 			console.log(err);
 		}
-		res.render('index',{
+		res.render('maps',{
 		 "title":"Moose Jaw Roads",
 		 "places": docs
 	    });
 	})
-
 });
 
 

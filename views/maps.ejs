@@ -1,0 +1,27 @@
+<div id="page">
+<% include partials/header.ejs %>
+
+<body>
+    <div id="brand"> 
+        <h1> Moose Jaw Water Works </h1>
+    </div>
+    <div id="menubar">
+    
+    </div>
+    <div id="page">
+
+	    <div id="sec1" class="sec">
+    	<div id="map"></div>
+     	<script src="maploader.js"></script>
+     	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDOojys9XUzySpVHVrkrTqttPw9o9Dthcw&callback=initMap">          
+     	</script>
+    	</div>
+    
+        <div id = "sec2" class="sec">
+            <div id="jsonprint"></div>
+    	</div>
+    </div>
+  </body>
+
+<% include partials/footer.ejs %>
+</div>
